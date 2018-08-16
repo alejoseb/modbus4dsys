@@ -1,0 +1,230 @@
+﻿Version     0.0
+Platform    Gen4-uLCD-32DT-L
+PlatRes     240x320
+Depends
+end
+Options
+    Visualizer
+    Speed                        9600
+    Checksum                     No
+    ResponseSize                 2
+    Multidrop                    No
+    Destination                  1
+    DestBank                     0
+    MainForm                     0
+    SndBuf                       0
+    ButtonDisable                No
+    SignedDigits                 Yes
+end
+Form
+    Name                         Form1
+    Alias                        Form1
+    Bgtype                       Color
+    Color                        BLACK
+    Image                        tolva.png
+    Source.Height                2400
+    Source.Left                  0
+    Source.Top                   0
+    Source.Width                 1673
+    OnActivate                   ''
+    OnCreate                     ''
+    OnRepeat                     ''
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
+end
+LedDigits
+    Name                         LeddigitsTemp1
+    Alias                        LeddigitsTemp1
+    Color                        BLACK
+    Decimals                     1
+    Digits                       4
+    Height                       40
+    LeadingZero                  No
+    Left                         20
+    OutlineColor                 BLACK
+    Palette.High                 clLime
+    Palette.Low                  0x003100
+    Top                          68
+    Width                        100
+    OnChanged                    ''
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
+end
+StaticText
+    Name                         StatictextTemp1
+    Alias                        StatictextTemp1
+    Alignment                    Left
+    AutoSize                     Yes
+    Caption                      'TEMP1 C°'
+    Color                        BLACK
+    Font.Color                   WHITE
+    Font.Effects                 []
+    Font.Name                    Tahoma
+    Font.Size                    12
+    Font.Style                   []
+    Height                       19
+    Left                         20
+    Top                          44
+    Transparent                  Yes
+    Width                        72
+    WordWrap                     Yes
+end
+StaticText
+    Name                         StatictextTemp2
+    Alias                        StatictextTemp2
+    Alignment                    Left
+    AutoSize                     Yes
+    Caption                      'TEMP2 °C'
+    Color                        BLACK
+    Font.Color                   WHITE
+    Font.Effects                 []
+    Font.Name                    Tahoma
+    Font.Size                    12
+    Font.Style                   []
+    Height                       19
+    Left                         20
+    Top                          120
+    Transparent                  Yes
+    Width                        72
+    WordWrap                     Yes
+end
+LedDigits
+    Name                         LeddigitsTemp2
+    Alias                        LeddigitsTemp2
+    Color                        BLACK
+    Decimals                     1
+    Digits                       4
+    Height                       40
+    LeadingZero                  No
+    Left                         20
+    OutlineColor                 BLACK
+    Palette.High                 clLime
+    Palette.Low                  0x003100
+    Top                          144
+    Width                        100
+    OnChanged                    ''
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
+end
+StaticText
+    Name                         StatictextTemp3
+    Alias                        StatictextTemp3
+    Alignment                    Left
+    AutoSize                     Yes
+    Caption                      'TEMP3 °C'
+    Color                        BLACK
+    Font.Color                   WHITE
+    Font.Effects                 []
+    Font.Name                    Tahoma
+    Font.Size                    12
+    Font.Style                   []
+    Height                       19
+    Left                         212
+    Top                          44
+    Transparent                  Yes
+    Width                        88
+    WordWrap                     Yes
+end
+LedDigits
+    Name                         LeddigitsTemp3
+    Alias                        LeddigitsTemp3
+    Color                        BLACK
+    Decimals                     1
+    Digits                       4
+    Height                       40
+    LeadingZero                  No
+    Left                         212
+    OutlineColor                 BLACK
+    Palette.High                 clLime
+    Palette.Low                  0x003100
+    Top                          68
+    Width                        100
+    OnChanged                    ''
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
+end
+StaticText
+    Name                         StatictextTemp4
+    Alias                        StatictextTemp4
+    Alignment                    Left
+    AutoSize                     Yes
+    Caption                      'TEMP4 °C'
+    Color                        BLACK
+    Font.Color                   WHITE
+    Font.Effects                 []
+    Font.Name                    Tahoma
+    Font.Size                    12
+    Font.Style                   []
+    Height                       19
+    Left                         212
+    Top                          119
+    Transparent                  Yes
+    Width                        88
+    WordWrap                     Yes
+end
+LedDigits
+    Name                         LeddigitsTemp4
+    Alias                        LeddigitsTemp4
+    Color                        BLACK
+    Decimals                     1
+    Digits                       4
+    Height                       40
+    LeadingZero                  No
+    Left                         212
+    OutlineColor                 BLACK
+    Palette.High                 clLime
+    Palette.Low                  0x003100
+    Top                          144
+    Width                        100
+    OnChanged                    ''
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
+end
+StaticText
+    Name                         StatictextA
+    Alias                        StatictextA
+    Alignment                    Left
+    AutoSize                     Yes
+    Caption                      'SILO A'
+    Color                        0xE4E51A
+    Font.Color                   0xF0E446
+    Font.Effects                 []
+    Font.Name                    Tahoma
+    Font.Size                    12
+    Font.Style                   [Bold]
+    Height                       19
+    Left                         132
+    Top                          12
+    Transparent                  Yes
+    Width                        55
+    WordWrap                     Yes
+end
+Rectangle
+    Name                         Rectangle2
+    Alias                        Rectangle2
+    Color                        BLACK
+    Filled                       Yes
+    Height                       35
+    Left                         4
+    Outlined                     Yes
+    OutlineColor                 BLACK
+    Pattern                      Fine
+    Top                          200
+    Width                        104
+end
+UserImages
+    Name                         UserSilo1
+    Alias                        UserSilo1
+    Height                       150
+    Images                       tolva.png\ntolva_blackAB.png\ntolva_blackA.png\ntolva_blackB.png
+    Left                         124
+    Stretch                      Yes
+    Top                          44
+    Width                        80
+    OnChanged                    ''
+end

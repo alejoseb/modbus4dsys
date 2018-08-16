@@ -1,0 +1,964 @@
+#platform "Gen4-uLCD-32DT"
+
+
+// Program Skeleton 1.3 generated 7/13/2018 10:28:36 AM
+
+#inherit "4DGL_16bitColours.fnc"
+
+#inherit "VisualConst.inc"
+
+#inherit "modbusConst.inc"
+
+#inherit "KBROUTINES.inc"
+#inherit "ledDigitsDisplay.inc"
+//*********** FORMS CONSTANTS *********///
+#CONST
+    PASSWORD:=1234;  //password inhinibir operacion
+    MINTEMP:= 0;
+    MAXTEMP:= 150;
+    MINTCONATO:= 0;
+    MAXTCONATO:= 500;
+#END
+
+#CONST
+    FORM1
+    FORM2
+    FORM3
+    FORM4
+    CANCEL
+    OKAY
+    ERROR
+    TEMP      //validation constant
+    TIME      //validation constant
+    PASS      //validation constant
+#END
+
+
+ //********* MODBUS STRUCTURES AND CONSTANTS ***************//
+ //Initialization parameters
+#CONST
+  SERIAL:=0; //serial port to USE  0 for defualt port , 1 for serial port 1
+  SLAVE_ADDRESS :=1;
+  MOD_TIMEOUT := 3000; //  timeout read/write modbus in ms
+  MOD_POOL_T := 350; // pooling time period modbus in ms
+  MOD_BAUDRATE := 960; // 9600/10 this is the value required by diablo
+  MOD_SWITCH_SILO:= 5000;  // ms for switching silos view
+#END
+
+
+//Estructure modbus_t telegram
+#CONST
+     u8id
+     u8fct
+     u16RegAdd
+     u16CoilsNo
+     au16reg  //this is a pointer
+     size_modbus_t // size of structure
+#END
+
+//enum
+#CONST
+    RESPONSE_SIZE := 6;
+    EXCEPTION_SIZE := 3;
+    CHECKSUM_SIZE := 2;
+#END
+
+ // FALSE TRUE enum
+#CONST
+    FALSE
+    TRUE
+#END
+
+ //enum for telegram frame positions
+#CONST
+    ID := 0; //!< ID field
+    FUNC :=1; //!< Function code position
+    ADD_HI :=2; //!< Address high byte
+    ADD_LO :=3; //!< Address low byte
+    NB_HI :=4; //!< Number of coils or registers high byte
+    NB_LO :=5; //!< Number of coils or registers low byte
+    BYTE_CNT :=6; //!< byte counter
+    SIZE_TELEGRAM:=7;
+#END
+
+//enum MB_FC, Modbus function code summary
+#CONST
+    MB_FC_NONE                     := 0;   /*!< null operator */
+    MB_FC_READ_COILS               := 1;    /*!< FCT=1 -> read coils or digital outputs */
+    MB_FC_READ_DISCRETE_INPUT      := 2;    /*!< FCT=2 -> read digital inputs */
+    MB_FC_READ_REGISTERS           := 3;    /*!< FCT=3 -> read registers or analog outputs */
+    MB_FC_READ_INPUT_REGISTER      := 4;    /*!< FCT=4 -> read analog inputs */
+    MB_FC_WRITE_COIL               := 5;    /*!< FCT=5 -> write single coil or output */
+    MB_FC_WRITE_REGISTER           := 6;    /*!< FCT=6 -> write single register */
+    // the payload of these two cmd can be as long as 255 bytes(259B in total)
+    MB_FC_WRITE_MULTIPLE_COILS     := 15;    /*!< FCT=15 -> write multiple coils or outputs */
+    MB_FC_WRITE_MULTIPLE_REGISTERS := 16;    /*!< FCT=16 -> write multiple registers */
+#END
+
+ //enum COM_STATES
+ #CONST
+    COM_IDLE                     := 0;
+    COM_WAITING                  := 1;
+ #END
+
+//enum ERR_LIST
+#CONST
+    ERR_NOT_MASTER                := -1;
+    ERR_POLLING                   := -2;
+    ERR_BUFF_OVERFLOW             := -3;
+    ERR_BAD_CRC                   := -4;
+    ERR_EXCEPTION                 := -5;
+#END
+
+//enum
+#CONST
+    NO_REPLY := 255;
+    EXC_FUNC_CODE := 1;
+    EXC_ADDR_RANGE := 2;
+    EXC_REGS_QUANT := 3;
+    EXC_EXECUTE := 4;
+#END
+
+//Fucntion codes supported
+var   fctsupported[8]:=[MB_FC_READ_COILS,MB_FC_READ_DISCRETE_INPUT,MB_FC_READ_REGISTERS,MB_FC_READ_INPUT_REGISTER,MB_FC_WRITE_COIL,MB_FC_WRITE_REGISTER,MB_FC_WRITE_MULTIPLE_COILS,MB_FC_WRITE_MULTIPLE_REGISTERS];
+
+// Modbus extra parameters
+#CONST
+T35 := 5;
+MAX_BUFFER := 64;       //!< maximum size for the communication buffer in bytes
+#END
+
+//Koyo base address and ofssets
+#CONST
+    BASE_RHOLD:=0;
+    OFFSET_SILOA:=0;
+    OFFSET_SILOB:=4;
+    BASE_COILS:=16384;
+#END
+
+//Koyo holding registers alias
+#CONST
+T_1A_RAW
+T_2A_RAW
+T_3A_RAW
+T_4A_RAW
+T_1B_RAW
+T_2B_RAW
+T_3B_RAW
+T_4B_RAW
+T_RES_1
+T_RES_2
+T_RES_3
+T_RES_4
+T_RES_5
+T_RES_6
+TIME_AL_1
+T_RES_8
+T_RES_9
+T_RES_10
+T_RES_11
+T_SET1_RAW
+T_SET2_RAW
+TIME_H_WAR
+TIME_L_WAR
+#END
+
+// Koyo coils offset
+#CONST
+T_1A_OK
+T_2A_OK
+T_3A_OK
+T_4A_OK
+T_1B_OK
+T_2B_OK
+T_3B_OK
+T_4B_OK
+T_RES_C1
+ACK
+INH_AL
+SAVE_SETS
+SSET_CONFIRM
+ALARM_01
+ALARM_02
+ALARM_03
+T_RES_C2
+T_RES_C3
+T_RES_C4
+EMERGENCY_A
+EMERGENCY_B
+DAQ_MOD_OK
+#END
+
+// Koyo coils mask
+#CONST
+M_T_1A_OK := (0x0001)<< T_1A_OK ;
+M_T_2A_OK := (0x0001)<< T_2A_OK ;
+M_T_3A_OK := (0x0001)<< T_3A_OK ;
+M_T_4A_OK := (0x0001)<< T_4A_OK ;
+M_T_1B_OK := (0x0001)<< T_1B_OK ;
+M_T_2B_OK := (0x0001)<< T_2B_OK ;
+M_T_3B_OK := (0x0001)<< T_3B_OK ;
+M_T_4B_OK := (0x0001)<< T_3B_OK ;
+M_T_RES_C1      := (0x0001)<< T_RES_C1;
+M_ACK           := (0x0001)<< ACK;
+M_INH_AL        := (0x0001)<< INH_AL;
+M_SAVE_SETS     := (0x0001)<< SAVE_SETS;
+M_SSET_CONFIRM  := (0x0001)<< SSET_CONFIRM;
+M_ALARM_01      := (0x0001)<< ALARM_01;
+M_ALARM_02      := (0x0001)<< ALARM_02;
+M_ALARM_03      := (0x0001)<< ALARM_03;
+M_T_RES_C2      := (0x0001)<< (T_RES_C2-16);
+M_T_RES_C3      := (0x0001)<< (T_RES_C3-16);
+M_T_RES_C4      := (0x0001)<< (T_RES_C4-16);
+M_EMERGENCY_A   := (0x0001)<< (EMERGENCY_A-16);
+M_EMERGENCY_B   := (0x0001)<< (EMERGENCY_B-16);
+M_DAQ_MOD_OK    := (0x0001)<< (DAQ_MOD_OK-16);
+#END
+
+
+//Modbus variables
+
+var bufferRX[64];  //buffer RX modbus
+var bufferTX[64];  //buffer TX modbus
+var au16data[64];  // Modbus DATA holding registers for reading/writing
+var au16AckAlarm[4]; // data holding for writing coils
+var au16Coils[4];  //data holding registers for reading coils
+
+ var Modu8id; //!< 0=master, 1..247=slave number
+ var Modu8serno; //!< serial port: 0-Serial, 1..3-Serial1..Serial3; 4: use software serial
+ var Modu8txenpin; //!< flow control pin: 0=USB or RS-232 mode, >0=RS-485 mode
+ var Modu8state;
+ var Modu8lastError;
+ var Modau8Buffer[MAX_BUFFER];
+ var Modu8BufferSize;
+ var Modu8lastRec;
+ var Modau16regs;  //pointer
+ var Modu16InCnt, Modu16OutCnt, Modu16errCnt;
+ var Modu16timeOut;
+ var Modu32time[2], Modu32timeOut[2];
+ var Modu8regsize;
+
+ // Global variables screens
+ var modVar, CurrentValue, NewValue;
+
+ //keyboard variables
+var i, status, n, x,y;
+var bar, text,a,b,c,savekey;
+var m:=1, e:=1, k:=5, d:=0;
+var buffer[10]:=[0,0,0,0,0,0,0,0,0,0];
+var powers[6]:=[1,10,100,1000,10000];
+var pointer,q;
+var newval, response;
+var ValidationType;
+var digNum; // number of digit to accept
+
+func ModbusInit(var pin)
+       //serial port initialization
+  #IF  (SERIAL == 1)
+    COM1_RX_pin(PA2);
+    COM1_TX_pin(PA3);
+    com1_Init(bufferRX,MAX_BUFFER,0);
+    com1_TXbuffer(bufferTX, MAX_BUFFER,pin);  //pin used for driving RS485 transceiver , 0 for RS232 point to point
+    com_SetBaud(COM1, MOD_BAUDRATE);
+  #ELSE
+
+    com_Init(bufferRX,MAX_BUFFER,0);
+    com_TXbuffer(bufferTX, MAX_BUFFER,pin);  //pin used for driving RS485 transceiver , 0 for RS232 point to point
+    com_SetBaud(COM0, MOD_BAUDRATE);
+
+  #ENDIF
+
+    Modu8lastRec:=0;
+    Modu8BufferSize:=0;
+    Modu16InCnt := 0;
+    Modu16OutCnt := 0;
+    Modu16errCnt := 0;
+    Modu8id := 0;
+    Modu16timeOut:= MOD_TIMEOUT;  // watch dog time out communication for Modbus
+    Modu8state:= COM_IDLE; // initial state of communication
+
+endfunc
+
+
+/**
+ * @brief
+ * *** Only Modbus Master ***
+ * Generate a query to an slave with a modbus_t telegram structure
+ * The Master must be in COM_IDLE mode. After it, its state would be COM_WAITING.
+ * This method has to be called only in loop() section.
+ *
+ * @see modbus_t
+ * @param modbus_t  modbus telegram structure (id, fct, ...)
+ * @ingroup loop
+*/
+
+func ModQuery( var telegram )
+
+
+var u8regsno, u8bytesno, p;
+var i;
+
+if (Modu8id!=0)
+
+  return (-2);
+endif
+if (Modu8state != COM_IDLE)
+  return (-1);
+endif
+if ((telegram[u8id]==0) || (telegram[u8id]>247))
+   return (-3);
+endif
+
+Modau16regs := telegram[au16reg];  // get the pointer to the data used in MODBUS
+
+p:=str_Ptr(Modau8Buffer); //obtiene el puntero del buffer de salida
+
+str_PutByte(p+ID, LObyte(telegram[u8id]));
+str_PutByte(p+FUNC, LObyte(telegram[u8fct]));
+str_PutByte(p+ADD_HI, HIbyte(telegram[u16RegAdd]));
+str_PutByte(p+ADD_LO, LObyte(telegram[u16RegAdd]));
+
+
+switch ( telegram[u8fct])
+    case MB_FC_READ_COILS:
+    case MB_FC_READ_DISCRETE_INPUT:
+    case MB_FC_READ_REGISTERS:
+    case MB_FC_READ_INPUT_REGISTER:
+
+         str_PutByte(p+NB_HI, HIbyte(telegram[u16CoilsNo]));
+         str_PutByte(p+NB_LO, LObyte(telegram[u16CoilsNo]));
+
+         Modu8BufferSize := 6;
+         break;
+
+    case MB_FC_WRITE_COIL:
+
+        str_PutByte(p+NB_HI, ((Modau16regs[0]>0) ? 0xff : 0));
+        str_PutByte(p+NB_LO, 0);
+
+        Modu8BufferSize := 6;
+        break;
+    case MB_FC_WRITE_REGISTER:
+        str_PutByte(p+NB_HI,HIbyte(Modau16regs[0]));
+        str_PutByte(p+NB_LO,LObyte(Modau16regs[0]));
+
+        Modu8BufferSize := 6;
+        break;
+
+     case MB_FC_WRITE_MULTIPLE_COILS: // TODO: implement "sending coils"
+        u8regsno := telegram[u16CoilsNo] / 16;
+        u8bytesno := u8regsno * 2;
+        if ((telegram[u16CoilsNo] % 16) != 0)
+
+            u8bytesno++;
+            u8regsno++;
+        endif
+
+        str_PutByte(p+ NB_HI, HIbyte(telegram[u16CoilsNo]));
+        str_PutByte(p+ NB_LO ,LObyte( telegram[u16CoilsNo]));
+        str_PutByte(p+BYTE_CNT, u8bytesno);
+        Modu8BufferSize := 7;
+
+        for ( i := 0; i < u8bytesno; i++)
+
+            if(i%2)
+
+               str_PutByte(p+Modu8BufferSize, LObyte( Modau16regs[ i/2 ] ));
+
+            else
+
+                str_PutByte(p+Modu8BufferSize, HIbyte( Modau16regs[ i/2 ] ));
+           endif
+            Modu8BufferSize++;
+        next
+        break;
+
+        case MB_FC_WRITE_MULTIPLE_REGISTERS:
+        str_PutByte(p+ NB_HI , HIbyte(telegram[u16CoilsNo] ));
+        str_PutByte(p+NB_LO , LObyte( telegram[u16CoilsNo]) );
+        str_PutByte(p+ BYTE_CNT ,  telegram[u16CoilsNo]* 2 );
+        Modu8BufferSize := 7;
+
+        for ( i:=0; i< telegram[u16CoilsNo]; i++)
+            str_PutByte(p+Modu8BufferSize ,HIbyte( Modau16regs[ i ] ));
+            Modu8BufferSize++;
+            str_PutByte(p+Modu8BufferSize ,LObyte( Modau16regs[ i ] ));
+            Modu8BufferSize++;
+        next
+        break;
+
+endswitch
+
+ModSendTxBuffer();
+
+Modu8state := COM_WAITING;
+
+return 0;
+endfunc
+
+ //function to send the modbus stream
+func ModSendTxBuffer()
+  var i := 0;
+  var p;
+
+  p:=str_Ptr(Modau8Buffer);
+
+  var crc ;
+  crc := crc_MODBUS(str_Ptr(Modau8Buffer), Modu8BufferSize);
+  str_PutByte(p+Modu8BufferSize, (crc&0xff));
+  Modu8BufferSize++;
+  str_PutByte(p+Modu8BufferSize,(crc>>8)&0xff);
+  Modu8BufferSize++;
+
+  #IF  (SERIAL == 1)
+     //com1_Init(bufferRX,MAX_BUFFER,0);
+     com1_TXblock(str_Ptr(Modau8Buffer), Modu8BufferSize);
+
+  #ELSE
+     //com_Init(bufferRX,MAX_BUFFER,0);
+     com_TXblock(str_Ptr(Modau8Buffer), Modu8BufferSize);
+  #ENDIF
+   Modu8BufferSize := 0;
+  // set time-out for master
+
+  sys_SetTimer(TIMER1, Modu16timeOut);
+
+  // increase message counter
+  Modu16OutCnt++;
+
+endfunc
+
+
+
+ /**
+ * @brief *** Only for Modbus Master ***
+ * This method checks if there is any incoming answer if pending.
+ * If there is no answer, it would change Master state to COM_IDLE.
+ * This method must be called only at loop section.
+ * Avoid any delay() function.
+ *
+ * Any incoming data would be redirected to au16regs pointer,
+ * as defined in its modbus_t query telegram.
+ *
+ * @params    nothing
+ * @return errors counter
+ * @ingroup loop
+ */
+
+func ModPoll()
+   var u8current;
+   //get the number of received bytes
+
+#IF  (SERIAL == 1)
+    u8current:=com1_Count();
+
+#ELSE
+     u8current:=com_Count();
+
+#ENDIF
+
+  txt_FontID(FONT_2);
+  txt_FGcolour(YELLOW) ;
+  txt_BGcolour(RED) ;
+   txt_MoveCursor(0,0);
+
+   if(sys_GetTimer(TIMER1)==0) //  timeout ocurred
+
+        print("COM:Timeout");
+        Modu8state := COM_IDLE;
+        Modu8lastError := NO_REPLY;
+        Modu16errCnt++;
+        return 0;
+   endif
+   if (u8current == 0)
+   //print("No bytes");
+   return 0; // no bytes received
+   endif
+   // check T35 after frame end or still no frame end
+    if (u8current != Modu8lastRec)
+        Modu8lastRec := u8current;
+        sys_SetTimer(TIMER2,T35);
+        return 0;
+    endif
+
+    if(sys_GetTimer(TIMER2)>0)
+         return 0;
+    endif
+
+      // transfer Serial buffer frame to auBuffer
+    //print(Modu8lastRec);
+    Modu8lastRec := 0;
+    var i8state;
+    i8state:= ModGetRxBuffer();
+
+    //print(i8state);
+    if (i8state < 6)  ///7 was incorrect for functions 1 and 2 the smallest frame could be 6 bytes long
+         print("COM:Error");
+        Modu8state := COM_IDLE;
+        Modu16errCnt++;
+        return i8state;
+    endif
+
+     // validate message: id, CRC, FCT, exception
+    var u8exception;
+    u8exception :=  ModValidateAnswer();
+
+
+    if (u8exception != 0)
+        print("COM:Excep.");
+        Modu8state := COM_IDLE;
+        return u8exception;
+    endif
+
+    txt_FGcolour(LIME) ;
+    txt_BGcolour(BLACK) ;
+    print("COM:ok      ");
+
+    var p;
+    p:=str_Ptr(Modau8Buffer);
+     // process answer
+    switch( str_GetByte(p+FUNC) )
+
+    case MB_FC_READ_COILS:
+    case MB_FC_READ_DISCRETE_INPUT:
+        // call get_FC1 to transfer the incoming message to au16regs buffer
+        ModGet_FC1( );
+        break;
+    case MB_FC_READ_INPUT_REGISTER:
+    case MB_FC_READ_REGISTERS :
+        // call get_FC3 to transfer the incoming message to au16regs buffer
+        ModGet_FC3( );
+        break;
+    case MB_FC_WRITE_COIL:
+    case MB_FC_WRITE_REGISTER :
+    case MB_FC_WRITE_MULTIPLE_COILS:
+    case MB_FC_WRITE_MULTIPLE_REGISTERS :
+        // nothing to do
+        break;
+    default:
+        break;
+    endswitch
+    Modu8state := COM_IDLE;
+    return Modu8BufferSize;
+
+
+endfunc
+
+func ModGet_FC1()
+    var uint8_t ,u8byte, i, maxI;
+    var p;
+    u8byte := 3;
+     p:=str_Ptr(Modau8Buffer);
+
+    for (i:=0; i< str_GetByte(p+2); i++)
+
+        if(i%2)
+
+            Modau16regs[i/2]:=    str_GetByte(p+i+u8byte)<<8 |  LObyte(Modau16regs[i/2]) ;
+
+        else
+
+            Modau16regs[i/2]:=   HIbyte(Modau16regs[i/2])<<8 |  str_GetByte(p+i+u8byte) ;
+        endif
+
+     next
+endfunc
+
+func ModGet_FC3()
+    var u8byte, i,p;
+    u8byte := 3;
+
+    p:=str_Ptr(Modau8Buffer);
+
+    for (i:=0; i< str_GetByte(p+2) /2; i++)
+
+        Modau16regs[ i ] := ByteSwap(str_GetWord(p+ u8byte));
+        u8byte := u8byte+2;
+    next
+endfunc
+
+
+func ModValidateAnswer()
+    var u16MsgCRC;
+    var p,crc;
+    p:=str_Ptr(Modau8Buffer);
+    u16MsgCRC :=str_GetWord(p+Modu8BufferSize-2);    // get crc received
+
+    if( crc_MODBUS(p, Modu8BufferSize-2 ) !=  u16MsgCRC)   //compare with calculated crc
+        Modu16errCnt ++;
+        //print(Modu8BufferSize);
+       // print("\n error crc");
+        return NO_REPLY;
+    endif
+     // check exception
+     if ((str_GetByte(p + FUNC) & 0x80) != 0)
+        // print("err exception");
+        Modu16errCnt++;
+        return ERR_EXCEPTION;
+    endif
+
+     // check fct code
+    var isSupported := FALSE;
+    var  i;
+    for ( i:= 0; i< sizeof( fctsupported ); i++)
+
+        if (fctsupported[i] == str_GetByte(p + FUNC))
+
+            isSupported := 1;
+            break;
+        endif
+     next
+
+     if (!isSupported)
+        // print("err f code not supported");
+        Modu16errCnt ++;
+        return EXC_FUNC_CODE;
+    endif
+
+    return 0; // OK, no exception code thrown
+
+
+endfunc
+
+
+func ModGetRxBuffer()
+var  bBuffOverflow := FALSE;
+var p;
+Modu8BufferSize:=0;
+p:= str_Ptr(Modau8Buffer);
+#IF (SERIAL==1)
+while(com1_Count())
+        str_PutByte(p+Modu8BufferSize,serin1());
+#ELSE
+  while(com_Count())
+        str_PutByte(p+Modu8BufferSize,serin());
+#ENDIF
+        Modu8BufferSize++;
+        if (Modu8BufferSize >= MAX_BUFFER)
+        bBuffOverflow := TRUE;
+        endif
+wend
+
+Modu16InCnt++;
+if (bBuffOverflow)
+     Modu16errCnt++;
+     return ERR_BUFF_OVERFLOW;
+endif
+return Modu8BufferSize;
+
+endfunc
+
+
+
+
+func  main()
+    var state, n , reply;
+//  var hstrings ; // Handle to access uSD strings, uncomment if required
+//  var hFontx ;   // Handle to access uSD fonts, uncomment if required and change n to font number
+//  Uncomment the following if uSD images, fonts or strings used.
+
+    ModbusInit(0);
+
+
+    touch_Set(TOUCH_ENABLE);
+    gfx_Set(SCREEN_MODE,LANDSCAPE) ;
+    putstr("Mounting...\n");
+    if (!(file_Mount()))
+        while(!(file_Mount()))
+            putstr("Drive not mounted...");
+            pause(200);
+            gfx_Cls();
+            pause(200);
+        wend
+    endif
+//    gfx_TransparentColour(0x0020);    // uncomment if transparency required
+//    gfx_Transparency(ON);             // uncomment if transparency required
+
+//  hFontn := file_LoadImageControl("modbus.dan", "modbus.gcn", 1); // Open handle to access uSD fonts, uncomment if required and change n to font number dropping a and c if > 9
+//  hstrings := file_Open("modbus.txf", 'r') ; // Open handle to access uSD strings, uncomment if required
+    hndl := file_LoadImageControl("modbus.dat", "modbus.gci", 1);
+
+
+    gfx_Cls();
+
+    var u32wait[2];
+    var telegram[SIZE_TELEGRAM];
+    var u8state;
+
+    reply := Form1();
+
+
+
+endfunc
+
+
+var operaActual:=0;
+var operaPrev:=0;  //variables alarm operation
+func Form1()
+    var _state, _n, _returnValue,x, state, numx;
+    var silo;
+    var telegram1[SIZE_TELEGRAM];
+    var telegram2[SIZE_TELEGRAM];
+    var telegram3[SIZE_TELEGRAM];
+    var telegram4[SIZE_TELEGRAM];
+    var FirstTime:=TRUE;
+    var u8state;
+    var SiloShow:='A';
+    var prev, actual;
+    var Alprev, Alactual;
+    var poolError:=0;
+    var exception;
+
+
+    //AlprevA=0, AlactualA,  AlprevB, AlactualB
+    Alprev:=0;
+    Alactual:=0;
+
+    u8state:=0;
+    //telegram for reading temperatures
+    telegram1[u8id]:= SLAVE_ADDRESS; // slave address
+    telegram1[u8fct] := MB_FC_READ_REGISTERS; // function code
+    telegram1[u16RegAdd] := T_1A_RAW ; // start address in slave
+    telegram1[u16CoilsNo] := 8; //number of elements (coils or registers) to read
+    telegram1[au16reg]:= au16data; // pointer to a memory array
+
+    //telegram for Ack Alarm
+    telegram2[u8id]:= SLAVE_ADDRESS; // slave address
+    telegram2[u8fct] := MB_FC_WRITE_COIL; // function code
+    telegram2[u16RegAdd] := ACK + BASE_COILS; // start address in slave
+    telegram2[u16CoilsNo] := 1; //number of elements (coils or registers) to read
+    telegram2[au16reg]:= au16AckAlarm; // pointer to a memory array
+
+
+    //telegram for Reading Coils/alarms
+    telegram3[u8id]:= SLAVE_ADDRESS; // slave address
+    telegram3[u8fct] := MB_FC_READ_COILS; // function code
+    telegram3[u16RegAdd] := BASE_COILS ; // start address in slave
+    telegram3[u16CoilsNo] := 22; //number of elements (coils or registers) to read
+    telegram3[au16reg]:= au16Coils; // pointer to a memory array
+
+     //telegram for Inhibir
+    telegram4[u8id]:= SLAVE_ADDRESS; // slave address
+    telegram4[u8fct] := MB_FC_WRITE_COIL; // function code
+    telegram4[u16RegAdd] := BASE_COILS +INH_AL ; // start address in slave
+    telegram4[u16CoilsNo] := 1; //number of elements (coils or registers) to read
+    telegram4[au16reg]:= au16AckAlarm; // pointer to a memory array
+
+
+    gfx_Cls();   //clean screen
+
+    img_SetAttributes(hndl, Form1, I_TOUCH_DISABLE);
+    // StatictextB 1.0 generated 7/22/2018 4:56:01 PM
+    img_Show(hndl,iStatictextA) ;
+    img_SetAttributes(hndl, iStatictextA, I_TOUCH_DISABLE);
+
+    // StatictextTemp1 1.0 generated 7/22/2018 4:56:09 PM
+    img_Show(hndl,iStatictextTemp1) ;
+    img_SetAttributes(hndl, iStatictextTemp1, I_TOUCH_DISABLE); // this is required for any widget that does not require touch events
+    img_Show(hndl,iStatictextTemp2) ;
+    img_SetAttributes(hndl, iStatictextTemp2, I_TOUCH_DISABLE);
+    img_Show(hndl,iStatictextTemp3) ;
+    img_SetAttributes(hndl, iStatictextTemp3, I_TOUCH_DISABLE);
+    img_Show(hndl,iStatictextTemp4) ;
+    img_SetAttributes(hndl, iStatictextTemp4, I_TOUCH_DISABLE);
+
+
+    // UserSilo1 1.0 generated 8/6/2018 3:08:10 AM
+    img_SetWord(hndl, iUserSilo1, IMAGE_INDEX, 0) ; // where frame is 0 to 3
+    img_Show(hndl,iUserSilo1) ;
+
+
+    // LeddigitsTemp1 1.0 generated 7/22/2018 4:57:13 PM
+    img_Show(hndl, iLeddigitsTemp1);  // show all digits at 0, only do this once
+    img_SetAttributes(hndl, iLeddigitsTemp1, I_TOUCH_DISABLE);
+    img_Show(hndl, iLeddigitsTemp2);  // show all digits at 0, only do this once
+    img_SetAttributes(hndl, iLeddigitsTemp2, I_TOUCH_DISABLE);
+    img_Show(hndl, iLeddigitsTemp3);  // show all digits at 0, only do this once
+    img_SetAttributes(hndl, iLeddigitsTemp3, I_TOUCH_DISABLE);
+    img_Show(hndl, iLeddigitsTemp4);  // show all digits at 0, only do this once
+    img_SetAttributes(hndl, iLeddigitsTemp4, I_TOUCH_DISABLE);
+
+
+
+
+     sys_SetTimer(TIMER4,MOD_SWITCH_SILO);
+     repeat
+            _state := touch_Get(TOUCH_STATUS);               // get touchscreen status
+            _n := img_Touched(hndl,-1) ;
+
+            if(_state == TOUCH_PRESSED)
+                 /*
+                if(_n == iWinbuttonAjustes)
+                      _returnValue := FORM2;
+                      goto exit;
+                endif
+
+                if( _n== iWinbuttonReconAlarm)
+                       if(Modu8state== COM_IDLE)
+
+                         au16AckAlarm[0]:=1; //set ack
+                         ModQuery(telegram2);
+                         sys_SetTimer(TIMER3,MOD_POOL_T);
+                       endif
+
+                endif
+                   */
+
+    endif
+
+             //modbus machine state
+
+    if(response==OKAY)
+        response:=ERROR;
+        u8state:=6;
+        while(Modu8state !=COM_IDLE)
+                  ModPoll();
+        wend
+        if(operaActual)
+                         au16AckAlarm[0]:=0;
+                         operaActual:=0;
+                         operaPrev:=0;
+        else
+                        au16AckAlarm[0]:=1;
+                         operaActual:=1;
+                         operaPrev:=1;
+        endif
+        sys_SetTimer(TIMER3,MOD_POOL_T);
+
+    endif
+
+    if(response==CANCEL)
+        response:=ERROR;
+        //u8state:=0;
+    endif
+
+
+    switch(u8state)
+
+        case 0:
+        case 3:
+        case 6:
+            if(sys_GetTimer(TIMER3)==0)
+                u8state++;
+                //print(":c",cycles);
+            endif
+            break;
+        case 1:
+            //print(":1");
+            ModQuery(telegram1);
+            u8state++;
+            //cycles++;
+            break;
+        case 2:
+
+            exception:= ModPoll();
+            if(Modu8state==COM_IDLE)  //verify modbus communication state COM_IDLE means that response was received
+                 // print(":2");
+                 u8state++;
+                if (exception>0)
+                //txt_MoveCursor(0,0);
+                //print(au16data);
+                 if (SiloShow=='A')
+                     numx:= au16data[T_1A_RAW];
+                     ledDigitsDisplay(numx, iLeddigitsTemp1+1, 20, 4, 2, 25, 1) ;
+                     numx:= au16data[T_2A_RAW];
+                     ledDigitsDisplay(numx, iLeddigitsTemp2+1, 20, 4, 2, 25, 1) ;
+                     numx:= au16data[T_3A_RAW];
+                     ledDigitsDisplay(numx, iLeddigitsTemp3+1, 212, 4, 2, 25, 1) ;
+                     numx:= au16data[T_4A_RAW];
+                     ledDigitsDisplay(numx, iLeddigitsTemp4+1, 212, 4, 2, 25, 1) ;
+
+                 else if(SiloShow=='B')
+
+                     numx:= au16data[T_1B_RAW];
+                     ledDigitsDisplay(numx, iLeddigitsTemp1+1, 20, 4, 2, 25, 1) ;
+                     numx:= au16data[T_2B_RAW];
+                     ledDigitsDisplay(numx, iLeddigitsTemp2+1, 20, 4, 2, 25, 1) ;
+                     numx:= au16data[T_3B_RAW];
+                     ledDigitsDisplay(numx, iLeddigitsTemp3+1, 212, 4, 2, 25, 1) ;
+                     numx:= au16data[T_4B_RAW];
+                     ledDigitsDisplay(numx, iLeddigitsTemp4+1, 212, 4, 2, 25, 1) ;
+
+                 endif
+               else
+                     u8state:=0;
+
+               endif
+              sys_SetTimer(TIMER3,MOD_POOL_T);
+
+            endif
+            break;
+        case 4:
+            ModQuery(telegram3);
+            u8state++;
+            break;
+
+        case 5:
+
+            exception:=ModPoll();
+            if(Modu8state==COM_IDLE)  //verify modbus communication state COM_IDLE means that response was received
+
+                 u8state:=0;
+
+              if (exception>0)
+                 actual:= (M_ALARM_01 | M_ALARM_02 | M_ALARM_03 ) &  au16Coils[0];
+                 operaActual := M_INH_AL &  au16Coils[0];
+                 if (actual != prev)
+                    prev:=actual;
+                    if( actual )
+                       // ShowAlarm(TRUE);
+                    else
+                       // ShowAlarm(FALSE);
+                    endif
+                 endif
+
+
+
+
+
+
+             endif
+
+
+                 sys_SetTimer(TIMER3,MOD_POOL_T);
+            endif
+
+            break;
+
+            case 7:
+
+                  ModQuery(telegram4);
+                  u8state++;
+                  break;
+
+            case 8:
+                 exception:=ModPoll();
+                 if(Modu8state==COM_IDLE)
+                    if (exception==8)
+                         u8state:=0;
+                    else
+                         u8state:=6;
+                    endif
+                    sys_SetTimer(TIMER3,MOD_POOL_T);
+                 endif
+                 break;
+    endswitch
+
+
+
+forever
+
+exit:
+   // pause(200);
+
+   img_SetAttributes(hndl, iUserSilo1, I_TOUCH_DISABLE);
+
+   img_SetAttributes(hndl, Form1, I_TOUCH_DISABLE);
+   return  _returnValue;
+
+endfunc
+
+
+
+
+

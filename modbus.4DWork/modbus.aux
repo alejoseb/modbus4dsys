@@ -1,0 +1,437 @@
+==============================================================
+==============================================================
+4DGL Compiler 2.8.1.0 -- Copyright 2004-2016 4D Labs
+** C:\Users\alejandro\Documents\modbus\modbus4dsys\modbus.4dg
+compiled Thu Aug 16 03:21:31 2018
+
+==============================================================
+==============================================================
+
+
+No Ref for file
+[LINKING]
+function 15, Form1, address 0xe3, stack usage 88 + 4 
+Alprev                                41  word     [local]  (usage 3)
+u8state                               37  word     [local]  (usage 36)
+poolError                             43  word     [local]  (usage 1)
+prev                                  39  word     [local]  (usage 6)
+numx                                   6  word     [local]  (usage 48)
+_state                                 1  word     [local]  (usage 6)
+_returnValue                           3  word     [local]  (usage 3)
+_n                                     2  word     [local]  (usage 3)
+telegram1                              8  word[7]  [local]  (usage 18)
+SiloShow                              38  word     [local]  (usage 7)
+actual                                40  word     [local]  (usage 12)
+telegram3                             22  word[7]  [local]  (usage 18)
+telegram2                             15  word[7]  [local]  (usage 15)
+telegram4                             29  word[7]  [local]  (usage 18)
+FirstTime                             36  word     [local]  (usage 1)
+Alactual                              42  word     [local]  (usage 3)
+exception                             44  word     [local]  (usage 18)
+
+[LINKING]
+function 14, main(main entry point), address 0x59f, stack usage 26 + 4 
+reply                                  3  word     [local]  (usage 3)
+
+[LINKING]
+function 13, ModGetRxBuffer, address 0x618, stack usage 4 + 4 
+bBuffOverflow                          1  word     [local]  (usage 7)
+p                                      2  word     [local]  (usage 6)
+
+[LINKING]
+function 12, ModValidateAnswer, address 0x677, stack usage 10 + 4 
+p                                      2  word     [local]  (usage 15)
+u16MsgCRC                              1  word     [local]  (usage 6)
+isSupported                            4  word     [local]  (usage 7)
+i                                      5  word     [local]  (usage 12)
+
+[LINKING]
+function 11, ModGet_FC3, address 0x71f, stack usage 6 + 4 
+u8byte                                 1  word     [local]  (usage 12)
+p                                      3  word     [local]  (usage 9)
+i                                      2  word     [local]  (usage 12)
+
+[LINKING]
+function 10, ModGet_FC1, address 0x77a, stack usage 10 + 4 
+u8byte                                 2  word     [local]  (usage 9)
+p                                      5  word     [local]  (usage 12)
+i                                      3  word     [local]  (usage 30)
+
+[LINKING]
+function 9, ModPoll, address 0x815, stack usage 8 + 4 
+p                                      4  word     [local]  (usage 6)
+u8exception                            3  word     [local]  (usage 9)
+u8current                              1  word     [local]  (usage 13)
+i8state                                2  word     [local]  (usage 9)
+
+[LINKING]
+function 8, ModSendTxBuffer, address 0x96a, stack usage 6 + 4 
+p                                      2  word     [local]  (usage 9)
+crc                                    3  word     [local]  (usage 9)
+i                                      1  word     [local]  (usage 1)
+
+[LINKING]
+function 7, ModQuery, address 0x9e5, stack usage 8 + 4 
+p                                      3  word     [local]  (usage 63)
+telegram                               1  word     [arg]  (usage 54)
+u8regsno                               1  word     [local]  (usage 9)
+u8bytesno                              2  word     [local]  (usage 12)
+i                                      4  word     [local]  (usage 33)
+
+[LINKING]
+function 6, ModbusInit, address 0xcd8, stack usage 0 + 4 
+pin                                    1  word     [arg]  (usage 3)
+
+[LINKING]
+function 5, ledDigitsDisplay, address 0xd34, stack usage 14 + 4 
+num                                    4  word[4]  [local]  (usage 6)
+newval                                 1  word     [arg]  (usage 3)
+Digits                                 2  word     [arg]  (usage 9)
+left                                   2  word     [arg]  (usage 3)
+index                                  1  word     [arg]  (usage 9)
+MinDigits                              3  word     [arg]  (usage 3)
+LeadingBlanks                          4  word     [arg]  (usage 6)
+WidthDigit                             3  word     [arg]  (usage 3)
+i                                      1  word     [local]  (usage 15)
+k                                      2  word     [local]  (usage 12)
+l                                      3  word     [local]  (usage 12)
+
+iKB                                    1  word     [arg]  (usage 8)
+oKB                                    1  word     [arg]  (usage 22)
+
+[LINKING]
+function 3, setkeystate, address 0xde3, stack usage 0 + 4 
+idx                                    1  word     [arg]  (usage 3)
+key                                    1  word     [arg]  (usage 6)
+
+handler                                3  word     [arg]  (usage 2)
+key                                    2  word     [arg]  (usage 18)
+KBKeys                                 2  word     [arg]  (usage 2)
+iKB                                    1  word     [arg]  (usage 8)
+oKB                                    1  word     [arg]  (usage 76)
+keyval                                 1  word     [local]  (usage 14)
+
+[LINKING]
+function 1, refreshstate, address 0xdfc, stack usage 2 + 4 
+iKB                                    1  word     [arg]  (usage 18)
+oKB                                    1  word     [arg]  (usage 33)
+shifted                                1  word     [local]  (usage 21)
+
+[RESERVED WORDS]
+#inherit
+#LISTCODE
+#MODE
+#STACK
+#OPTIMIZE_ON
+#OPTIMIZE_OFF
+byte
+word
+dword
+float
+private
+#IF
+#IFNOT
+#ELSE
+#ENDIF
+#CONST
+#constant
+#USE
+USING
+func
+endfunc
+var
+#STOP
+#DATA
+#ASM
+#END
+#platform
+EXISTS
+#ERROR
+#MESSAGE
+#NOTICE
+sizeof
+argcount
+if
+else
+endif
+while
+wend
+repeat
+until
+forever
+return
+break
+continue
+for
+next
+switch
+case
+default
+endswitch
+print
+goto
+gosub
+endsub
+mcall
+lookup8
+lookup16
+
+[MACRO]
+
+[CONSTANTS]
+__MAXMEM                          00008000      32768  (usage 1)
+__MAXPROG                         00007FEE      32750  (usage 1)
+ACK                               00000009          9  (usage 5)
+ADD_HI                            00000002          2  (usage 3)
+ADD_LO                            00000003          3  (usage 3)
+ALARM_01                          0000000D         13  (usage 2)
+ALARM_02                          0000000E         14  (usage 2)
+ALARM_03                          0000000F         15  (usage 2)
+au16reg                           00000004          4  (usage 15)
+BASE_COILS                        00004000      16384  (usage 9)
+BLACK                             00000000          0  (usage 3)
+BYTE_CNT                          00000006          6  (usage 6)
+CANCEL                            00000004          4  (usage 3)
+COM0                              0000F804      63492  (usage 3)
+COM_IDLE                          00000000          0  (usage 30)
+COM_WAITING                       00000001          1  (usage 3)
+DAQ_MOD_OK                        00000015         21  (usage 3)
+DIABLO                            00000003          3  (usage 3)
+EMERGENCY_A                       00000013         19  (usage 3)
+EMERGENCY_B                       00000014         20  (usage 3)
+ERR_BUFF_OVERFLOW                 FFFFFFFD         -3  (usage 3)
+ERR_EXCEPTION                     FFFFFFFB         -5  (usage 3)
+ERROR                             00000006          6  (usage 6)
+EXC_FUNC_CODE                     00000001          1  (usage 3)
+FALSE                             00000000          0  (usage 6)
+FONT_2                            00000002          2  (usage 3)
+FUNC                              00000001          1  (usage 12)
+I_TOUCH_DISABLE                   00000020         32  (usage 36)
+ID                                00000000          0  (usage 3)
+iLeddigitsTemp1                   00000000          0  (usage 12)
+iLeddigitsTemp2                   00000004          4  (usage 12)
+iLeddigitsTemp3                   00000007          7  (usage 12)
+iLeddigitsTemp4                   0000000A         10  (usage 12)
+IMAGE_INDEX                       00000009          9  (usage 9)
+IMAGE_XPOS                        00000002          2  (usage 3)
+INH_AL                            0000000A         10  (usage 5)
+iStatictextA                      0000000C         12  (usage 6)
+iStatictextTemp1                  00000002          2  (usage 6)
+iStatictextTemp2                  00000003          3  (usage 6)
+iStatictextTemp3                  00000006          6  (usage 6)
+iStatictextTemp4                  00000009          9  (usage 6)
+iUserSilo1                        0000000D         13  (usage 9)
+KbButtons                         0000000A         10  (usage 4)
+KbCaps                            00000004          4  (usage 10)
+KbCapsBit                         00000002          2  (usage 9)
+KbCtrl1                           00000007          7  (usage 9)
+KbCtrl2                           00000008          8  (usage 9)
+KbCtrlBit                         00000004          4  (usage 15)
+KbDown                            00000000          0  (usage 6)
+KbIgn                             00000003          3  (usage 12)
+KbLock                            00000009          9  (usage 5)
+KbMvt                             00000001          1  (usage 12)
+KbShift1                          00000005          5  (usage 5)
+KbShift2                          00000006          6  (usage 5)
+KbShiftBit                        00000001          1  (usage 13)
+KbShiftCaps                       0000000B         11  (usage 2)
+KbShiftCapsBits                   00000003          3  (usage 14)
+KbState                           00000002          2  (usage 46)
+LANDSCAPE                         00000000          0  (usage 3)
+LIME                              000007E0       2016  (usage 3)
+M_ALARM_01                        00002000       8192  (usage 3)
+M_ALARM_02                        00004000      16384  (usage 3)
+M_ALARM_03                        00008000      32768  (usage 3)
+M_INH_AL                          00000400       1024  (usage 3)
+MAX_BUFFER                        00000040         64  (usage 12)
+MB_FC_READ_COILS                  00000001          1  (usage 11)
+MB_FC_READ_DISCRETE_INPUT         00000002          2  (usage 8)
+MB_FC_READ_INPUT_REGISTER         00000004          4  (usage 8)
+MB_FC_READ_REGISTERS              00000003          3  (usage 11)
+MB_FC_WRITE_COIL                  00000005          5  (usage 14)
+MB_FC_WRITE_MULTIPLE_COILS        0000000F         15  (usage 8)
+MB_FC_WRITE_MULTIPLE_REGISTERS    00000010         16  (usage 8)
+MB_FC_WRITE_REGISTER              00000006          6  (usage 8)
+MOD_BAUDRATE                      000003C0        960  (usage 3)
+MOD_POOL_T                        0000015E        350  (usage 12)
+MOD_SWITCH_SILO                   00001388       5000  (usage 3)
+MOD_TIMEOUT                       00000BB8       3000  (usage 3)
+NB_HI                             00000004          4  (usage 15)
+NB_LO                             00000005          5  (usage 15)
+NO_REPLY                          000000FF        255  (usage 6)
+OKAY                              00000005          5  (usage 3)
+RED                               0000F800      63488  (usage 3)
+SAVE_SETS                         0000000B         11  (usage 2)
+SCREEN_MODE                       00000017         23  (usage 3)
+SERIAL                            00000000          0  (usage 12)
+SIZE_TELEGRAM                     00000007          7  (usage 15)
+SLAVE_ADDRESS                     00000001          1  (usage 12)
+SSET_CONFIRM                      0000000C         12  (usage 2)
+T35                               00000005          5  (usage 3)
+T_1A_OK                           00000000          0  (usage 2)
+T_1A_RAW                          00000000          0  (usage 6)
+T_1B_OK                           00000004          4  (usage 2)
+T_1B_RAW                          00000004          4  (usage 3)
+T_2A_OK                           00000001          1  (usage 2)
+T_2A_RAW                          00000001          1  (usage 3)
+T_2B_OK                           00000005          5  (usage 2)
+T_2B_RAW                          00000005          5  (usage 3)
+T_3A_OK                           00000002          2  (usage 2)
+T_3A_RAW                          00000002          2  (usage 3)
+T_3B_OK                           00000006          6  (usage 4)
+T_3B_RAW                          00000006          6  (usage 3)
+T_4A_OK                           00000003          3  (usage 2)
+T_4A_RAW                          00000003          3  (usage 3)
+T_4B_RAW                          00000007          7  (usage 3)
+T_RES_C1                          00000008          8  (usage 2)
+T_RES_C2                          00000010         16  (usage 3)
+T_RES_C3                          00000011         17  (usage 3)
+T_RES_C4                          00000012         18  (usage 3)
+TIMER1                            00000001          1  (usage 6)
+TIMER2                            00000002          2  (usage 6)
+TIMER3                            00000003          3  (usage 15)
+TIMER4                            00000004          4  (usage 3)
+TOUCH_ENABLE                      00000000          0  (usage 3)
+TOUCH_PRESSED                     00000001          1  (usage 3)
+TOUCH_STATUS                      00000000          0  (usage 3)
+TRUE                              00000001          1  (usage 6)
+u16CoilsNo                        00000003          3  (usage 42)
+u16RegAdd                         00000002          2  (usage 18)
+u8fct                             00000001          1  (usage 18)
+u8id                              00000000          0  (usage 21)
+YELLOW                            0000FFE0      65504  (usage 3)
+
+[PmmC FUNCTIONS]
+ByteSwap                          FFFFFFCF         -49  args=1 r=1  (usage 3)
+com1_Init                         FFFFFF17        -233  args=3 r=0  (usage 1)
+COM1_RX_pin                       FFFFFF1E        -226  args=1 r=1  (usage 1)
+COM1_TX_pin                       FFFFFF1B        -229  args=1 r=1  (usage 1)
+com1_TXblock                      FFFFFDD3        -557  args=2 r=0  (usage 1)
+com1_TXbuffer                     FFFFFEF7        -265  args=3 r=0  (usage 1)
+com_Count                         FFFFFF08        -248  args=0 r=1  (usage 6)
+com_Init                          FFFFFF18        -232  args=3 r=0  (usage 3)
+com_SetBaud                       FFFFFF1F        -225  args=2 r=1  (usage 4)
+com_TXblock                       FFFFFEE7        -281  args=2 r=0  (usage 3)
+com_TXbuffer                      FFFFFEF8        -264  args=3 r=0  (usage 3)
+crc_MODBUS                        FFFFFDC8        -568  args=2 r=1  (usage 6)
+file_LoadImageControl             FFFFFE3D        -451  args=3 r=1  (usage 3)
+file_Mount                        FFFFFE3C        -452  args=0 r=1  (usage 6)
+gfx_Cls                           FFFFFF82        -126  args=0 r=0  (usage 9)
+gfx_Set                           FFFFFF83        -125  args=2 r=0  (usage 3)
+HIbyte                            FFFFFFD0         -48  args=1 r=1  (usage 24)
+img_SetAttributes                 FFFFFE82        -382  args=3 r=1  (usage 36)
+img_SetWord                       FFFFFE85        -379  args=4 r=1  (usage 12)
+img_Show                          FFFFFE83        -381  args=2 r=1  (usage 36)
+img_Touched                       FFFFFE80        -384  args=2 r=1  (usage 3)
+LObyte                            FFFFFFD1         -47  args=1 r=1  (usage 30)
+pause                             FFFFFFFA          -6  args=1 r=0  (usage 6)
+putnum                            FFFFFFF9          -7  args=2 r=1  (usage 3)
+putstr                            FFFFFFF7          -9  args=1 r=1  (usage 6)
+serin                             FFFFFF14        -236  args=0 r=1  (usage 3)
+str_GetByte                       FFFFFE25        -475  args=1 r=1  (usage 24)
+str_GetWord                       FFFFFE24        -476  args=1 r=1  (usage 6)
+str_Ptr                           FFFFFE2A        -470  args=1 r=1  (usage 30)
+str_PutByte                       FFFFFE23        -477  args=2 r=0  (usage 70)
+sys_GetTimer                      FFFFFE76        -394  args=1 r=1  (usage 9)
+sys_SetTimer                      FFFFFE77        -393  args=2 r=0  (usage 21)
+to                                FFFFFFFF          -1  args=1 r=0  (usage 3)
+touch_Get                         FFFFFE68        -408  args=1 r=1  (usage 3)
+touch_Set                         FFFFFE69        -407  args=1 r=0  (usage 3)
+txt_BGcolour                      FFFFFFED         -19  args=1 r=1  (usage 6)
+txt_FGcolour                      FFFFFFEE         -18  args=1 r=1  (usage 6)
+txt_FontID                        FFFFFFEC         -20  args=1 r=1  (usage 3)
+txt_MoveCursor                    FFFFFFF0         -16  args=2 r=0  (usage 3)
+
+[USER FUNCTIONS]
+Form1                             000000E3  args=0 r=0  (usage 9)
+ledDigitsDisplay                  00000D34  args=7 r=0  (usage 24)
+ModbusInit                        00000CD8  args=1 r=0  (usage 3)
+ModGet_FC1                        0000077A  args=0 r=0  (usage 3)
+ModGet_FC3                        0000071F  args=0 r=0  (usage 3)
+ModGetRxBuffer                    00000618  args=0 r=0  (usage 3)
+ModPoll                           00000815  args=0 r=0  (usage 12)
+ModQuery                          000009E5  args=1 r=0  (usage 9)
+ModSendTxBuffer                   0000096A  args=0 r=0  (usage 3)
+ModValidateAnswer                 00000677  args=0 r=0  (usage 3)
+refreshstate                      00000DFC  args=2 r=0  (usage 6)
+setkeystate                       00000DE3  args=2 r=0  (usage 28)
+
+[GLOBAL VARIABLES]
+au16AckAlarm                         202  word[4]   (usage 12)
+au16Coils                            206  word[4]   (usage 9)
+au16data                             138  word[64]   (usage 27)
+bufferRX                              10  word[64]   (usage 3)
+bufferTX                              74  word[64]   (usage 3)
+d                                    308  word       (usage 1)
+e                                    306  word       (usage 1)
+fctsupported                           2  word[8]   (usage 6)
+hndl                                   1  word       (usage 90)
+i                                    294  word       (usage 5)
+k                                    307  word       (usage 1)
+m                                    305  word       (usage 1)
+Modau16regs                          281  word       (usage 39)
+Modau8Buffer                         215  word[64]   (usage 27)
+Modu16errCnt                         284  word       (usage 21)
+Modu16InCnt                          282  word       (usage 6)
+Modu16OutCnt                         283  word       (usage 6)
+Modu16timeOut                        285  word       (usage 6)
+Modu8BufferSize                      279  word       (usage 84)
+Modu8id                              210  word       (usage 6)
+Modu8lastError                       214  word       (usage 3)
+Modu8lastRec                         280  word       (usage 12)
+Modu8state                           213  word       (usage 33)
+n                                    296  word       (usage 1)
+operaActual                          331  word       (usage 13)
+operaPrev                            332  word       (usage 7)
+response                             328  word       (usage 12)
+x                                    297  word       (usage 1)
+
+[PRIVATE VARIABLES]
+
+[DATA]
+0007: 01 00 02 00 03 00 04 00 05 00 06 00 0F 00 10 00     ................
+0017: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00     ................
+0027: 00 00 00 00 01 00 0A 00 64 00 E8 03 10 27 34 03     ........d.è..'4.
+0037: 48 03 57 03 34 03 86 04 95 04 34 03 F5 04 04 05     H.W.4.†.•.4.õ...
+0047: 3A 05 4D 6F 75 6E 74 69 6E 67 2E 2E 2E 0A 00 44     :.Mounting.....D
+0057: 72 69 76 65 20 6E 6F 74 20 6D 6F 75 6E 74 65 64     rive not mounted
+0067: 2E 2E 2E 00 6D 6F 64 62 75 73 2E 64 61 74 00 6D     ....modbus.dat.m
+0077: 6F 64 62 75 73 2E 67 63 69 00 43 4F 4D 3A 54 69     odbus.gci.COM:Ti
+0087: 6D 65 6F 75 74 00 43 4F 4D 3A 45 72 72 6F 72 00     meout.COM:Error.
+0097: 43 4F 4D 3A 45 78 63 65 70 2E 00 43 4F 4D 3A 6F     COM:Excep..COM:o
+00A7: 6B 20 20 20 20 20 20 00 01 02 03 04 05 06 0F 10     k      .........
+00B7: 48 09 48 09 51 09 51 09 5A 09 5A 09 5A 09 5A 09     H.H.Q.Q.Z.Z.Z.Z.
+00C7: 5D 09 01 02 03 04 05 06 0F 10 AB 0A AB 0A AB 0A     ].........«.«.«.
+00D7: AB 0A E1 0A 17 0B 4F 0B 23 0C C9 0C                 «.á...O.#.É.
+
+[__MAXPROG]
+32750
+[__MAXMEM]
+32768
+
+[PROGRAM]
+main
+[CODESIZE]
+3782
+[MEMSIZE]
+332
+[ARGCOUNT]
+0
+[RETURNS]
+NO
+[STACKSIZE]
+0 (AUTO)
+[STACK_ESTIMATE]
+242   (nb:- worst case estimate)
+[MODE]
+0
+
+[PROJECT]
+C:\Users\alejandro\Documents\modbus\modbus4dsys\modbus.4dg
+C:\Program Files (x86)\4D Labs\4D Workshop 4 IDE\include\Gen4-uLCD-32DT.fnc
+C:\Program Files (x86)\4D Labs\4D Workshop 4 IDE\include\Diablo16_Functions.fnc
+C:\Program Files (x86)\4D Labs\4D Workshop 4 IDE\include\4DGL_16bitColours.fnc
+C:\Program Files (x86)\4D Labs\4D Workshop 4 IDE\include\VisualConst.inc
+C:\Users\alejandro\Documents\modbus\modbus4dsys\modbus.4DWork\modbusConst.inc
+C:\Program Files (x86)\4D Labs\4D Workshop 4 IDE\include\KBROUTINES.inc
+C:\Program Files (x86)\4D Labs\4D Workshop 4 IDE\include\ledDigitsDisplay.inc
