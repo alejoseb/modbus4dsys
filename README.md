@@ -14,11 +14,15 @@ This repository includes a complete example for VISI IDE. Modbus is implemented 
 ### Testing
 - Connect your Gen4-uLCD-32DT to your computer using the programming interface. 
 - Set Mobus parameters in source code:
+
+```
   SERIAL:=0; //serial port to USE  0 for defualt port , 1 for serial port 1
   SLAVE_ADDRESS :=1; //adress of slave device
   MOD_TIMEOUT := 3000; //  timeout read/write modbus in ms
   MOD_POOL_T := 350; // pooling time period modbus in ms
   MOD_BAUDRATE := 960; // 9600 bauds according to Diablo16 documentation
+```  
+ 
 - Compile and download the example to your display
 - Launch the emulator and configure the same serial port used  on Workshop 4 for downloading the example.
 - Set the correct baudrate (9600), no parity, 1 stop bit, 8 bit data, RTS control disabled.
