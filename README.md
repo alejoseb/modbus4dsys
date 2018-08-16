@@ -26,7 +26,7 @@ This repository includes a complete example for VISI IDE. Modbus is implemented 
 
 
 ## Known issues
-Since Modbus pools data continuously from slave an uses many background tasks, it consumes considerable resources of Diablo16 processor. I faced some instability of EVE virtual machine and even some crashes. I am pretty sure crashes are not related to bugs in Modbus implementation. I realized that incrementing the MOD_POOL_T period helps with stability, especially when many objects of the display are modified with data coming form Modbus slave. I am not an expert on 4D systems products, but I think Diablo16 is not able to manage a demanding USART communication and update the screen at the same time. However, this is not a big issue, I managed to develop a functional and responsive application with a real Koyo PLC using the parameters of the included example.
+Since Modbus polls data continuously from slave an uses many background tasks, it consumes considerable resources of Diablo16 processor. I faced some instability of EVE virtual machine and even some crashes. I am pretty sure crashes are not related to bugs in Modbus implementation. I realized that incrementing the MOD_POOL_T period helps with stability, especially when many objects of the display are modified with data coming form Modbus slave. I am not an expert on 4D systems products, but I think Diablo16 is not able to manage a demanding USART communication and update the screen at the same time. However, this is not a big issue, I managed to develop a functional and responsive application with a real Koyo PLC using the parameters of the included example.
 
 ## TODOs
 - Implement Modbus slave fucntionality. It may be ported from the original library.
