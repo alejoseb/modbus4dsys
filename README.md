@@ -6,7 +6,7 @@ This example was developed on VISI of 4D Workshop IDE, and tested on the Gen4-uL
 
 ![Alt text](images/modbus.png?raw=true "Modbus example")
 
-Modbus protocol is implemented as part of application example. There is no module or separate file for Modbus Protocol implmentation.
+Modbus protocol is implemented as part of application example. There is no module or separate file for Modbus Protocol library.
 
 You can watch the working example on the following link:
 https://www.youtube.com/watch?v=P9TaRjac6ZE
