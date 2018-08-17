@@ -1,6 +1,6 @@
 # modbus4dsys
 This repository is an adaptation of the Modbus RTU protocol for the Diablo16 processor of 4d Systems. It is based on the library published at https://github.com/smarmengol/Modbus-Master-Slave-for-Arduino. The original library is a non-blocking and excelent implementation of Modbus RTU for Arduino. This port implements the Master function codes 1, 2, 3, 4, 5, 6, 15 and 16 of Modbus RTU protocol. 
-Slave functinality, which is part of the original library, is not implemented. Check TODOs section if you are interested in porting the slave functionality.
+Slave functionality, which is part of the original library, is not implemented. Check TODOs section if you are interested in porting the slave functionality.
 ## Getting Started
 This example was developed and tested on the Gen4-uLCD-32DT (https://www.4dsystems.com.au/product/gen4_uLCD_32D/). This intelligent display implements the Diablo16 processor. Running this code requires some specific Diablo16 internal functions and may not be compatible with other graphic processors of 4D Systems. 
 
