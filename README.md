@@ -2,11 +2,11 @@
 This repository is an adaptation of the Modbus RTU protocol for the Diablo16 processor of 4d Systems. It is based on the library published at https://github.com/smarmengol/Modbus-Master-Slave-for-Arduino. The original library is a non-blocking and excelent implementation of Modbus RTU for Arduino. This port implements the Master function codes 1, 2, 3, 4, 5, 6, 15 and 16 of Modbus RTU protocol. 
 Slave functionality, which is part of the original library, is not implemented. Check TODOs section if you are interested in porting the slave functionality.
 ## Getting Started
-This example was developed and tested on the Gen4-uLCD-32DT (https://www.4dsystems.com.au/product/gen4_uLCD_32D/). This intelligent display implements the Diablo16 processor. Running this code requires some specific Diablo16 internal functions and may not be compatible with other graphic processors of 4D Systems. 
+This example was developed on VISI of 4D Workshop IDE, and tested on the Gen4-uLCD-32DT (https://www.4dsystems.com.au/product/gen4_uLCD_32D/). This intelligent display implements the Diablo16 processor. Running this code requires some specific Diablo16 internal functions and may not be compatible with other graphic processors of 4D Systems. 
 
 ![Alt text](images/modbus.png?raw=true "Modbus example")
 
-The example was developed in the VISI IDE. Modbus protocol is implemented in the same example as a group of functions, contants and procedures.
+Modbus protocol is implemented as part of application example. There is no module or separate file for Modbus Protocol implmentation.
 
 You can watch the working example on the following link:
 https://www.youtube.com/watch?v=P9TaRjac6ZE
@@ -45,5 +45,6 @@ Since Modbus polls data continuously from slave an uses many background tasks, i
 
 ## More information about Modbus
 http://www.simplymodbus.ca/FAQ.htm
-
+http://modbus.org/
+http://modbus.org/docs/Modbus_over_serial_line_V1_02.pdf
 
