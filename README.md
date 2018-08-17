@@ -4,7 +4,12 @@ Slave functionality, which is part of the original library, is not implemented. 
 ## Getting Started
 This example was developed and tested on the Gen4-uLCD-32DT (https://www.4dsystems.com.au/product/gen4_uLCD_32D/). This intelligent display implements the Diablo16 processor. Running this code requires some specific Diablo16 internal functions and may not be compatible with other graphic processors of 4D Systems. 
 
+![Alt text](images/modbus.png?raw=true "Modbus example")
+
 The example was developed in the VISI IDE. Modbus protocol is implemented in the same example as a group of functions, contants and procedures.
+
+You can watch the working example on the following link:
+https://www.youtube.com/watch?v=P9TaRjac6ZE
 
 ### Prerequisites
 - Gen4-uLCD-32DT or any other Diablo16 based display
