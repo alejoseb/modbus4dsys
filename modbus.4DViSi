@@ -41,7 +41,7 @@ LedDigits
     Digits                       4
     Height                       40
     LeadingZero                  No
-    Left                         20
+    Left                         28
     OutlineColor                 BLACK
     Palette.High                 clLime
     Palette.Low                  0x003100
@@ -65,7 +65,7 @@ StaticText
     Font.Size                    12
     Font.Style                   []
     Height                       19
-    Left                         20
+    Left                         28
     Top                          44
     Transparent                  Yes
     Width                        72
@@ -84,7 +84,7 @@ StaticText
     Font.Size                    12
     Font.Style                   []
     Height                       19
-    Left                         20
+    Left                         28
     Top                          120
     Transparent                  Yes
     Width                        72
@@ -98,7 +98,7 @@ LedDigits
     Digits                       4
     Height                       40
     LeadingZero                  No
-    Left                         20
+    Left                         28
     OutlineColor                 BLACK
     Palette.High                 clLime
     Palette.Low                  0x003100
@@ -122,7 +122,7 @@ StaticText
     Font.Size                    12
     Font.Style                   []
     Height                       19
-    Left                         212
+    Left                         202
     Top                          44
     Transparent                  Yes
     Width                        88
@@ -136,7 +136,7 @@ LedDigits
     Digits                       4
     Height                       40
     LeadingZero                  No
-    Left                         212
+    Left                         202
     OutlineColor                 BLACK
     Palette.High                 clLime
     Palette.Low                  0x003100
@@ -160,7 +160,7 @@ StaticText
     Font.Size                    12
     Font.Style                   []
     Height                       19
-    Left                         212
+    Left                         202
     Top                          119
     Transparent                  Yes
     Width                        88
@@ -174,7 +174,7 @@ LedDigits
     Digits                       4
     Height                       40
     LeadingZero                  No
-    Left                         212
+    Left                         202
     OutlineColor                 BLACK
     Palette.High                 clLime
     Palette.Low                  0x003100
@@ -184,25 +184,6 @@ LedDigits
     OnTouchMoving                ''
     OnTouchPressed               ''
     OnTouchReleased              ''
-end
-StaticText
-    Name                         StatictextA
-    Alias                        StatictextA
-    Alignment                    Left
-    AutoSize                     Yes
-    Caption                      'SILO A'
-    Color                        0xE4E51A
-    Font.Color                   0xF0E446
-    Font.Effects                 []
-    Font.Name                    Tahoma
-    Font.Size                    12
-    Font.Style                   [Bold]
-    Height                       19
-    Left                         132
-    Top                          12
-    Transparent                  Yes
-    Width                        55
-    WordWrap                     Yes
 end
 Rectangle
     Name                         Rectangle2
@@ -217,14 +198,166 @@ Rectangle
     Top                          200
     Width                        104
 end
-UserImages
-    Name                         UserSilo1
-    Alias                        UserSilo1
-    Height                       150
-    Images                       tolva.png\ntolva_blackAB.png\ntolva_blackA.png\ntolva_blackB.png
-    Left                         124
-    Stretch                      Yes
-    Top                          44
-    Width                        80
+WinButton
+    Name                         Winbutton1
+    Alias                        Winbutton1
+    Appearance.Alignment         Center
+    Appearance.Layout            Left
+    Appearance.PictureAlignment  Right
+    Appearance.SimpleLayout      No
+    Appearance.Spacing           3
+    AutoSizeToPicture            No
+    Bevel                        Yes
+    BevelColor                   clWhite
+    Caption                      'Write holding Register'
+    Color                        clGray
+    Font.Color                   clWindowText
+    Font.Effects                 []
+    Font.Name                    Tahoma
+    Font.Size                    8
+    Font.Style                   []
+    Height                       32
+    Left                         12
+    Matrix                       -1
+    Momentary                    Yes
+    Picture                      (None)
+    StatusWhenOff.BGcolor        RED
+    StatusWhenOff.Caption        ''
+    StatusWhenOff.Glow           Yes
+    StatusWhenOff.Color          WHITE
+    StatusWhenOff.Effects        []
+    StatusWhenOff.Name           Tahoma
+    StatusWhenOff.Size           8
+    StatusWhenOff.Style          []
+    StatusWhenOff.Visible        Yes
+    StatusWhenOn.BGcolor         RED
+    StatusWhenOn.Caption         ''
+    StatusWhenOn.Glow            Yes
+    StatusWhenOn.Color           WHITE
+    StatusWhenOn.Effects         []
+    StatusWhenOn.Name            Tahoma
+    StatusWhenOn.Size            8
+    StatusWhenOn.Style           []
+    StatusWhenOn.Visible         Yes
+    Top                          196
+    Width                        93
     OnChanged                    ''
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
+end
+StaticText
+    Name                         Statictext1
+    Alias                        Statictext1
+    Alignment                    Left
+    AutoSize                     Yes
+    Caption                      'Modbus Example'
+    Color                        BLACK
+    Font.Color                   WHITE
+    Font.Effects                 []
+    Font.Name                    Tahoma
+    Font.Size                    12
+    Font.Style                   []
+    Height                       21
+    Left                         96
+    Top                          20
+    Transparent                  Yes
+    Width                        138
+    WordWrap                     Yes
+end
+WinButton
+    Name                         Winbutton2
+    Alias                        Winbutton2
+    Appearance.Alignment         Center
+    Appearance.Layout            Left
+    Appearance.PictureAlignment  Right
+    Appearance.SimpleLayout      No
+    Appearance.Spacing           3
+    AutoSizeToPicture            No
+    Bevel                        Yes
+    BevelColor                   clWhite
+    Caption                      'Write Coil ON'
+    Color                        clGray
+    Font.Color                   clWindowText
+    Font.Effects                 []
+    Font.Name                    Tahoma
+    Font.Size                    8
+    Font.Style                   []
+    Height                       32
+    Left                         116
+    Matrix                       -1
+    Momentary                    Yes
+    Picture                      (None)
+    StatusWhenOff.BGcolor        RED
+    StatusWhenOff.Caption        ''
+    StatusWhenOff.Glow           Yes
+    StatusWhenOff.Color          WHITE
+    StatusWhenOff.Effects        []
+    StatusWhenOff.Name           Tahoma
+    StatusWhenOff.Size           8
+    StatusWhenOff.Style          []
+    StatusWhenOff.Visible        Yes
+    StatusWhenOn.BGcolor         RED
+    StatusWhenOn.Caption         ''
+    StatusWhenOn.Glow            Yes
+    StatusWhenOn.Color           WHITE
+    StatusWhenOn.Effects         []
+    StatusWhenOn.Name            Tahoma
+    StatusWhenOn.Size            8
+    StatusWhenOn.Style           []
+    StatusWhenOn.Visible         Yes
+    Top                          196
+    Width                        93
+    OnChanged                    ''
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
+end
+WinButton
+    Name                         Winbutton3
+    Alias                        Winbutton3
+    Appearance.Alignment         Center
+    Appearance.Layout            Left
+    Appearance.PictureAlignment  Right
+    Appearance.SimpleLayout      No
+    Appearance.Spacing           3
+    AutoSizeToPicture            No
+    Bevel                        Yes
+    BevelColor                   clWhite
+    Caption                      'Write Coil OFF'
+    Color                        clGray
+    Font.Color                   clWindowText
+    Font.Effects                 []
+    Font.Name                    Tahoma
+    Font.Size                    8
+    Font.Style                   []
+    Height                       32
+    Left                         220
+    Matrix                       -1
+    Momentary                    Yes
+    Picture                      (None)
+    StatusWhenOff.BGcolor        RED
+    StatusWhenOff.Caption        ''
+    StatusWhenOff.Glow           Yes
+    StatusWhenOff.Color          WHITE
+    StatusWhenOff.Effects        []
+    StatusWhenOff.Name           Tahoma
+    StatusWhenOff.Size           8
+    StatusWhenOff.Style          []
+    StatusWhenOff.Visible        Yes
+    StatusWhenOn.BGcolor         RED
+    StatusWhenOn.Caption         ''
+    StatusWhenOn.Glow            Yes
+    StatusWhenOn.Color           WHITE
+    StatusWhenOn.Effects         []
+    StatusWhenOn.Name            Tahoma
+    StatusWhenOn.Size            8
+    StatusWhenOn.Style           []
+    StatusWhenOn.Visible         Yes
+    Top                          196
+    Width                        93
+    OnChanged                    ''
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
 end
