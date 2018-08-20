@@ -24,7 +24,7 @@ https://www.youtube.com/watch?v=P9TaRjac6ZE
   SERIAL:=0; //serial port to USE  0 for defualt port , 1 for serial port 1
   SLAVE_ADDRESS :=1; //adress of slave device
   MOD_TIMEOUT := 3000; //  timeout read/write modbus in ms
-  MOD_POOL_T := 350; // pooling time period modbus in ms
+  MOD_POOL_T := 350; // polling time period modbus in ms
   MOD_BAUDRATE := 960; // 9600 bauds according to Diablo16 documentation
 ```  
  
