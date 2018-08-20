@@ -45,6 +45,8 @@ Since Modbus polls data continuously from slave an uses many background tasks, i
 
 ## More information about Modbus
 http://www.simplymodbus.ca/FAQ.htm
+
 http://modbus.org/
+
 http://modbus.org/docs/Modbus_over_serial_line_V1_02.pdf
 
